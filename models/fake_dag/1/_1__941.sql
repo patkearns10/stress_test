@@ -1,5 +1,0 @@
-select * from {{ ref('_0__941') }} 
-  union all 
-select * from {{ ref('_0__942') }} 
-  union all 
-select 1 as dummmy_column_1 
