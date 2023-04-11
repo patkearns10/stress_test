@@ -65,7 +65,7 @@ def create_random_dag(levels, num_nodes, skip_levels):
             print('============================')
             print(f'level: {level}')
             print(f'node: {node}')
-            file_name = f'_{level}__{node}.sql'
+            file_name = f'_tmp_{level}__{node}.sql'
             with open(os.path.join(nested_directory, file_name), 'w') as fp:
                 
                 # sources all have select 1 as the sql
@@ -90,7 +90,7 @@ def create_random_dag(levels, num_nodes, skip_levels):
                         output_refs = []
                         sql_code=''
                         for i in range(refs_for_this_node):
-                            ref_file_name = f'_{level-1}__{i}'
+                            ref_file_name = f'_tmp_{level-1}__{i}'
                             print(ref_file_name)
                             sql_code += f'select * from {open_ref}{ref_file_name}{close_ref} \n  union all \n'
                             
@@ -105,7 +105,7 @@ def create_random_dag(levels, num_nodes, skip_levels):
                         start_point = refs_needed - refs_for_this_node
                         sql_code=''
                         for ii in range(start_point, refs_needed):
-                            ref_file_name = f'_{level-1}__{ii}'
+                            ref_file_name = f'_tmp_{level-1}__{ii}'
                             print(ref_file_name)
                             sql_code += f'select * from {open_ref}{ref_file_name}{close_ref} \n  union all \n'
                             
@@ -120,7 +120,7 @@ def create_random_dag(levels, num_nodes, skip_levels):
                         start_point = min_refs * node
                         sql_code=''
                         for iii in range(start_point, start_point + refs_for_this_node):
-                            ref_file_name = f'_{level-1}__{iii}'
+                            ref_file_name = f'_tmp_{level-1}__{iii}'
                             print(ref_file_name)
                             sql_code += f'select * from {open_ref}{ref_file_name}{close_ref} \n  union all \n'
                         # skip level chance
@@ -128,7 +128,7 @@ def create_random_dag(levels, num_nodes, skip_levels):
                             flip = coin_flip()
                             if flip == 'Heads':
                                 random_node = random.randint(0, dag[level-2]-1)
-                                ref_file_name = f'_{level-2}__{random_node}'
+                                ref_file_name = f'_tmp_{level-2}__{random_node}'
                                 print(ref_file_name)
                                 sql_code += f'select * from {open_ref}{ref_file_name}{close_ref} \n  union all \n'
                         sql_code += 'select 1 as dummmy_column_1 \n'
